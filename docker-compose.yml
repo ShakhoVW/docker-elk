@@ -1,6 +1,7 @@
 elasticsearch:
-  image: elasticsearch:latest
-  command: elasticsearch -Des.network.host=0.0.0.0
+  image: elasticsearch:2.1.1
+  volumes:
+    - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
   ports:
     - "9200:9200"
     - "9300:9300"
@@ -14,7 +15,8 @@ logstash:
   links:
     - elasticsearch
 kibana:
-  build: kibana/
+  image: kibana-sense:4.3.1
+  command: /tmp/entrypoint.sh
   volumes:
     - ./kibana/config/kibana.yml:/opt/kibana/config/kibana.yml
   ports:
